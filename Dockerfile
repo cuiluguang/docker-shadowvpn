@@ -23,9 +23,8 @@ RUN apk add -U autoconf \
                iptables \
                libtool \
                linux-headers \
-	&& cd $ASSETS_DIR \
-    && ./autogen.sh \
-    && ./configure --enable-static --sysconfdir=/etc \
+    && $ASSETS_DIR/autogen.sh \
+    && $ASSETS_DIR/configure --enable-static --sysconfdir=/etc \
     && make install \
     && cd .. \
     && rm -rf ShadowVPN \
