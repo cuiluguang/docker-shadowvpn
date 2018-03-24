@@ -5,7 +5,7 @@
 FROM alpine
 MAINTAINER kev <noreply@easypi.pro>
 
-ADD .docker $ASSETS_DIR
+ADD ./ $ASSETS_DIR
 
 ENV SERVER_IP 0.0.0.0
 ENV SERVER_PORT 1123
