@@ -21,7 +21,7 @@ RUN apk add -U autoconf \
                iptables \
                libtool \
                linux-headers \
-    && cd ShadowVPN \
+    && cd ./ShadowVPN \
     && ./autogen.sh \
     && ./configure --enable-static --sysconfdir=/etc \
     && make install \
@@ -42,6 +42,6 @@ RUN apk add -U autoconf \
 	&& sed -i 's/{:server_tun}/$TUN_NAME/g' /etc/shadowvpn/server.conf \
 	&& sed -i 's/{:server_token}/$USER_TOKEN/g' /etc/shadowvpn/server.conf \
 	&& cd ../ \
-	&& rm -rf ShadowVPN
+	&& rm -rf ./ShadowVPN
 
 CMD shadowvpn -c /etc/shadowvpn/server.conf
