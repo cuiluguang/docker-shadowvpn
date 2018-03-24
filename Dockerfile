@@ -5,8 +5,6 @@
 FROM alpine
 MAINTAINER kev <noreply@easypi.pro>
 
-ADD ./ $ASSETS_DIR
-
 ENV SERVER_IP 0.0.0.0
 ENV SERVER_PORT 1123
 ENV PASSWORD my_password
@@ -23,8 +21,10 @@ RUN apk add -U autoconf \
                iptables \
                libtool \
                linux-headers \
-    && $ASSETS_DIR/autogen.sh \
-    && $ASSETS_DIR/configure --enable-static --sysconfdir=/etc \
+    && git clone https://github.com/KazamiLabs/ShadowVPN.git \
+	&& cd ShadowVPN \
+	&& ./autogen.sh \
+    && ./configure --enable-static --sysconfdir=/etc \
     && make install \
     && cd .. \
     && rm -rf ShadowVPN \
@@ -41,7 +41,6 @@ RUN apk add -U autoconf \
 	&& sed -i 's/{:server_concurrency}/$CONCURRENCY/g' /etc/shadowvpn/server.conf \
 	&& sed -i 's/{:server_mtu}/$MTU/g' /etc/shadowvpn/server.conf \
 	&& sed -i 's/{:server_tun}/$TUN_NAME/g' /etc/shadowvpn/server.conf \
-	&& sed -i 's/{:server_token}/$USER_TOKEN/g' /etc/shadowvpn/server.conf \
-	&& rm -rf ./*
+	&& sed -i 's/{:server_token}/$USER_TOKEN/g' /etc/shadowvpn/server.conf 
 
 CMD shadowvpn -c /etc/shadowvpn/server.conf
