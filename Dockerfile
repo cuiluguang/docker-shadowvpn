@@ -24,11 +24,6 @@ RUN apk add -U autoconf \
 			   libsodium-dev \
     && git clone https://github.com/KazamiLabs/ShadowVPN.git \
 	&& cd ShadowVPN \
-	&& cd libsodium \
-	&& ./autogen.sh \
-	&& ./configure \
-	&& make && make install \
-	$$ cd ../ \
 	&& ./autogen.sh \
     && ./configure --enable-static --sysconfdir=/etc \
     && make && make install \
@@ -40,13 +35,14 @@ RUN apk add -U autoconf \
                gawk \
                git \
                libtool \
-               linux-headers \
-	&& sed -i 's/{:server_ip}/$SERVER_IP/g' /etc/shadowvpn/server.conf \
+               linux-headers 
+	
+
+CMD sed -i 's/{:server_ip}/$SERVER_IP/g' /etc/shadowvpn/server.conf \
 	&& sed -i 's/{:server_port}/$SERVER_PORT/g' /etc/shadowvpn/server.conf \
 	&& sed -i 's/{:server_password}/$PASSWORD/g' /etc/shadowvpn/server.conf \
 	&& sed -i 's/{:server_concurrency}/$CONCURRENCY/g' /etc/shadowvpn/server.conf \
 	&& sed -i 's/{:server_mtu}/$MTU/g' /etc/shadowvpn/server.conf \
 	&& sed -i 's/{:server_tun}/$TUN_NAME/g' /etc/shadowvpn/server.conf \
-	&& sed -i 's/{:server_token}/$USER_TOKEN/g' /etc/shadowvpn/server.conf 
-
-CMD shadowvpn -c /etc/shadowvpn/server.conf
+	&& sed -i 's/{:server_token}/$USER_TOKEN/g' /etc/shadowvpn/server.conf \
+	&& shadowvpn -c /etc/shadowvpn/server.conf
