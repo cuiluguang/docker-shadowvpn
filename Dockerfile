@@ -24,9 +24,14 @@ RUN apk add -U autoconf \
 			   libsodium-dev \
     && git clone https://github.com/KazamiLabs/ShadowVPN.git \
 	&& cd ShadowVPN \
+	&& cd libsodium \
+	&& ./autogen.sh \
+	&& ./configure \
+	&& make && make install \
+	$$ cd ../ \
 	&& ./autogen.sh \
     && ./configure --enable-static --sysconfdir=/etc \
-    && make install \
+    && make && make install \
     && cd .. \
     && rm -rf ShadowVPN \
     && apk del autoconf \
