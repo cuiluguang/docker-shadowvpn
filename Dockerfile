@@ -21,6 +21,7 @@ RUN apk add -U autoconf \
                iptables \
                libtool \
                linux-headers \
+			   libsodium-dev \
     && git clone https://github.com/KazamiLabs/ShadowVPN.git \
 	&& cd ShadowVPN \
 	&& ./autogen.sh \
