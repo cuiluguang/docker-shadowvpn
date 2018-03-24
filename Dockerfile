@@ -5,6 +5,8 @@
 FROM alpine
 MAINTAINER kev <noreply@easypi.pro>
 
+ADD .docker $ASSETS_DIR
+
 ENV SERVER_IP 0.0.0.0
 ENV SERVER_PORT 1123
 ENV PASSWORD my_password
@@ -21,6 +23,7 @@ RUN apk add -U autoconf \
                iptables \
                libtool \
                linux-headers \
+	&& cd $ASSETS_DIR \
     && ./autogen.sh \
     && ./configure --enable-static --sysconfdir=/etc \
     && make install \
@@ -40,7 +43,6 @@ RUN apk add -U autoconf \
 	&& sed -i 's/{:server_mtu}/$MTU/g' /etc/shadowvpn/server.conf \
 	&& sed -i 's/{:server_tun}/$TUN_NAME/g' /etc/shadowvpn/server.conf \
 	&& sed -i 's/{:server_token}/$USER_TOKEN/g' /etc/shadowvpn/server.conf \
-	&& cd ../ \
 	&& rm -rf ./*
 
 CMD shadowvpn -c /etc/shadowvpn/server.conf
