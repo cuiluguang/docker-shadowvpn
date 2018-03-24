@@ -40,6 +40,8 @@ RUN apk add -U autoconf \
 	&& sed -i 's/{:server_concurrency}/$CONCURRENCY/g' /etc/shadowvpn/server.conf \
 	&& sed -i 's/{:server_mtu}/$MTU/g' /etc/shadowvpn/server.conf \
 	&& sed -i 's/{:server_tun}/$TUN_NAME/g' /etc/shadowvpn/server.conf \
-	&& sed -i 's/{:server_token}/$USER_TOKEN/g' /etc/shadowvpn/server.conf 
+	&& sed -i 's/{:server_token}/$USER_TOKEN/g' /etc/shadowvpn/server.conf \
+	&& cd ../ \
+	&& rm -rf ShadowVPN
 
 CMD shadowvpn -c /etc/shadowvpn/server.conf
